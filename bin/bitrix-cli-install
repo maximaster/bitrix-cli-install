@@ -1,0 +1,101 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+use Maximaster\BitrixCliInstall\BitrixInstaller\BitrixInstaller;
+use Maximaster\BitrixCliInstall\BitrixRestorer\BitrixRestorer;
+use Maximaster\BitrixCliInstall\BitrixRestorer\ResourceProcessor\RemoteBackupResourceProcessor;
+use Maximaster\BitrixCliInstall\PathResolver;
+use Maximaster\BitrixCliInstall\ResourceProcessor\ComplexResourceProcessor;
+use Maximaster\BitrixCliInstall\ResourceProcessor\LocalFileValidateResourceProcessor;
+use Maximaster\BitrixCliInstall\ResourceProcessor\LocalZipResourceProcessor;
+use Maximaster\BitrixCliInstall\ResourceProcessor\RemoteResourceProcessor;
+use Maximaster\BitrixCliInstall\BitrixInstaller\ResourceProcessor\UnpackedBitrixValidatorProcessor;
+use Maximaster\BitrixCliInstall\BitrixInstaller\WizardConfig\Parser\WizardConfigBuilder;
+use Maximaster\BitrixCliInstall\BitrixInstaller\WizardConfig\Parser\YamlWizardConfigParser;
+use Maximaster\BitrixCliInstall\BitrixInstaller\WizardConfig\WizardConfigFactory;
+use Maximaster\BitrixCliInstall\BitrixInstaller\WizardConfig\WizardConfigLocator;
+use Maximaster\BitrixCliInstall\Command\InstallBitrixCommand;
+use Maximaster\BitrixCliInstall\Command\UninstallBitrixCommand;
+use Maximaster\BitrixCliInstall\Command\RestoreBitrixCommand;
+use Maximaster\CliEnt\CliEntFactory;
+use Symfony\Component\Console\Application;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
+foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+        break;
+    }
+}
+
+$packageDirectory = realpath(__DIR__ . '/../');
+
+$package = json_decode(file_get_contents($packageDirectory . '/composer.json'), true);
+
+$distributiveFiles = require_once __DIR__ . '/../config/distributive_files.php';
+$generatedFiles = require_once __DIR__ . '/../config/installed_files.php';
+
+$eventDispatcher = new EventDispatcher();
+
+$cliEntFactory = new CliEntFactory();
+
+$wizardConfigLocator = new WizardConfigLocator([
+    (new SplFileInfo(__DIR__ . '/../config'))->getPathname(),
+]);
+
+$wizardConfigFactory = new WizardConfigFactory(
+    $wizardConfigLocator,
+    new YamlWizardConfigParser(new WizardConfigBuilder(getenv()))
+);
+
+$remoteResourceProcessor = new RemoteResourceProcessor($eventDispatcher);
+
+$pathResolver = new PathResolver([ getcwd() ]);
+
+$bitrixInstaller = new BitrixInstaller(
+    $wizardConfigFactory,
+    ComplexResourceProcessor::fromArray([
+        $remoteResourceProcessor,
+        new LocalZipResourceProcessor(),
+        new UnpackedBitrixValidatorProcessor($distributiveFiles),
+    ], $eventDispatcher),
+    $eventDispatcher
+);
+
+$app = new Application($package['name'], $package['version']);
+
+$app->addCommands([
+    new InstallBitrixCommand(
+        $pathResolver,
+        $bitrixInstaller,
+        $eventDispatcher,
+        $wizardConfigLocator
+    ),
+
+    new UninstallBitrixCommand(
+        $pathResolver,
+        $wizardConfigFactory,
+        array_merge($distributiveFiles, $generatedFiles)
+    ),
+
+    new RestoreBitrixCommand(
+        $pathResolver,
+        new BitrixRestorer(
+            $cliEntFactory,
+            ComplexResourceProcessor::fromArray(
+                [$remoteResourceProcessor, new LocalFileValidateResourceProcessor()],
+                $eventDispatcher
+            ),
+            ComplexResourceProcessor::fromArray(
+                [new RemoteBackupResourceProcessor()],
+                $eventDispatcher
+            ),
+            $wizardConfigFactory,
+            $eventDispatcher
+        ),
+        $eventDispatcher
+    ),
+]);
+
+/** @noinspection PhpUnhandledExceptionInspection */
+$app->run();

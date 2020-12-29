@@ -1,0 +1,204 @@
+steps:
+    -   CurrentStepID: welcome
+        __wiz_siteID: s1
+        __wiz_siteFolder:
+
+    -   CurrentStepID: select_template
+        __wiz_templateID: bitrix24
+
+    -   CurrentStepID: site_settings
+        __wiz_siteName: Моя компания
+        __wiz_installDemoData: Y
+        __wiz_allowSocial: Y
+        __wiz_allowGuests:
+        __wiz_allowRegistration:
+        __wiz_allowLDAP:
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: search
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: files
+        __wiz_nextStepStage: files.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: files
+        __wiz_nextStepStage: bitrix.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: main
+        __wiz_nextStepStage: site.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: main
+        __wiz_nextStepStage: template.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: main
+        __wiz_nextStepStage: theme.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: main
+        __wiz_nextStepStage: groups.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: main
+        __wiz_nextStepStage: options.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: main
+        __wiz_nextStepStage: rating.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: main
+        __wiz_nextStepStage: event.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: forum
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: support
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: types.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: absence.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: honour.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: departments.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: state_history.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: clients.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: master.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: res.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: user_photogallery.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock
+        __wiz_nextStepStage: group_photogallery.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock_demo_data
+        __wiz_nextStepStage: absence.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock_demo_data
+        __wiz_nextStepStage: state_history.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: iblock_demo_data
+        __wiz_nextStepStage: honour.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: advertising
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: vote
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: blog
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: intranet
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: intranet
+        __wiz_nextStepStage: rating.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: socialnetwork
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: tasks
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: workflow
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: fileman
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: medialibrary
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: lists
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: crm
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: documentgenerator
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: meeting
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: timeman
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: xdimport
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: calendar
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: disk
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: marketing
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: im
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        __wiz_nextStep: mail
+        __wiz_nextStepStage: index.php
+
+    -   CurrentStepID: data_install
+        NextStepID: finish
+        __wiz_nextStep: finish
+        __wiz_nextStepStage: finish

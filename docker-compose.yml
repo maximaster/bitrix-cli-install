@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+    bitrix-cli-install:
+        image: bitrix-cli-install
+        build: .
+        environment:
+            BITRIX_DIR: /tmp/bitrix-cli-install
+            XDEBUG_CONFIG: $XDEBUG_CONFIG
+            PHP_IDE_CONFIG: $PHP_IDE_CONFIG
+            HOST_MACHINE: $HOST_MACHINE
+        volumes:
+            - .:/var/www
+            - ${BITRIX_CLI_INSTALL_TARGET:-/tmp/bitrix-cli-install}:/tmp/bitrix-cli-install

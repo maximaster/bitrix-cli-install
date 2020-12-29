@@ -1,0 +1,133 @@
+steps:
+    # basic installation
+    -   CurrentStepID: welcome
+        StepNext: Y
+
+    -   CurrentStepID: agreement
+        __wiz_agree_license: Y
+
+    -   CurrentStepID: select_database
+        __wiz_dbType: mysql
+        __wiz_lic_key_variant:
+        __wiz_user_name:
+        __wiz_user_surname:
+        __wiz_email:
+        __wiz_utf8: Y
+
+    -   CurrentStepID: create_database
+        __wiz_host: '%BITRIX_DB_HOST%'
+        __wiz_create_user: N
+        __wiz_user: '%BITRIX_DB_LOGIN%'
+        __wiz_password: '%BITRIX_DB_PASSWORD%'
+        __wiz_create_database: N
+        __wiz_database: '%BITRIX_DB_NAME%'
+        __wiz_create_database_type: innodb
+        __wiz_root_user:
+        __wiz_root_password:
+        __wiz_file_access_perms: 0644
+        __wiz_folder_access_perms: 0755
+
+    -   CurrentStepID: create_modules
+        ~cartesian_product:
+            __wiz_nextStep:
+                - main
+                - abtest
+                - advertising
+                - b24connector
+                - bitrix.eshop
+                - bitrix.sitecommunity
+                - bitrix.sitecorporate
+                - bitrix.siteinfoportal
+                - bitrix.sitepersonal
+                - bitrixcloud
+                - bizproc
+                - bizprocdesigner
+                - blog
+                - calendar
+                - catalog
+                - clouds
+                - compression
+                - controller
+                - conversion
+                - crm
+                - currency
+                - dav
+                - disk
+                - documentgenerator
+                - extranet
+                - faceid
+                - fileman
+                - form
+                - forum
+                - highloadblock
+                - iblock
+                - idea
+                - im
+                - imbot
+                - imconnector
+                - imopenlines
+                - intranet
+                - landing
+                - ldap
+                - learning
+                - lists
+                - mail
+                - meeting
+                - messageservice
+                - ml
+                - mobile
+                - mobileapp
+                - perfmon
+                - photogallery
+                - pull
+                - recyclebin
+                - report
+                - rest
+                - sale
+                - salescenter
+                - scale
+                - search
+                - security
+                - sender
+                - seo
+                - socialnetwork
+                - socialservices
+                - statistic
+                - storeassist
+                - subscribe
+                - support
+                - tasks
+                - timeman
+                - transformer
+                - translate
+                - ui
+                - vote
+                - voximplant
+                - webservice
+                - wiki
+                - workflow
+                - xdimport
+                # - xmpp
+            __wiz_nextStepStage:
+                - utf8
+                - database
+                - files
+
+    -   CurrentStepID: create_modules
+        ~cartesian_product:
+            __wiz_nextStep:
+                - remove_mysql
+                - remove_mssql
+                - remove_oracle
+                - remove_misc
+                - __finish
+            __wiz_nextStepStage:
+                - single
+
+    -   CurrentStepID: create_admin
+        __wiz_login: '%BITRIX_ADMIN_LOGIN%'
+        __wiz_admin_password: '%BITRIX_ADMIN_PASSWORD%'
+        __wiz_admin_password_confirm: '%BITRIX_ADMIN_PASSWORD%'
+        __wiz_email: '%BITRIX_ADMIN_EMAIL%'
+        __wiz_user_name:
+        __wiz_user_surname:
