@@ -423,7 +423,14 @@ class BitrixRestorer
      */
     private function copyBackup(string $backupUri, string $targetDirectory): void
     {
-        if (copy($backupUri, $targetDirectory . DIRECTORY_SEPARATOR . basename($backupUri)) === false) {
+        $targetPath = $targetDirectory . DIRECTORY_SEPARATOR . basename($backupUri);
+
+        // Случай когда бекап уже находится в публичной директории и переносить для распаковки его не нужно
+        if ($backupUri === $targetPath) {
+            return;
+        }
+
+        if (copy($backupUri, $targetPath) === false) {
             throw new Exception(sprintf('Не удалось скопировать бекап "%s" в директорию "%s"', $backupUri, $targetDirectory));
         }
     }

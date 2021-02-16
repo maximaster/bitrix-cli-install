@@ -21,11 +21,23 @@ use Maximaster\CliEnt\CliEntFactory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $autoload) {
+$possibleAutoloads = [
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../../autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+];
+
+$loader = null;
+foreach ($possibleAutoloads as $autoload) {
     if (file_exists($autoload)) {
-        require_once $autoload;
+        $loader = require_once $autoload;
         break;
     }
+}
+
+if ($loader === null) {
+    echo 'autoload.php has not been found' . PHP_EOL;
+    die();
 }
 
 $packageDirectory = realpath(__DIR__ . '/../');
