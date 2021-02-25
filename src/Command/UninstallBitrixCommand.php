@@ -55,6 +55,8 @@ class UninstallBitrixCommand extends Command
 
     protected function configure()
     {
+        $this->setDescription('Удалить Битрикс');
+
         $def = $this->getDefinition();
 
         $def->setArguments([

@@ -1,3 +1,6 @@
+include .env
+export
+
 IMAGE_NAME=maximaster/bitrix-cli-install
 
 ifeq ($(shell which docker | wc -l),0)
@@ -24,19 +27,24 @@ install:
 	test -n "$(to)"
 	make run cmd="bitrix:install -- $(distributive) /tmp/bitrix-cli-install" with="--volume $(to):/tmp/bitrix-cli-install"
 
-.PHONY: develop # document-root="Путь установки"
+.PHONY: develop # document-root="Путь установки" withTmpDb="Дополнительно запустить тестовую базу данных"
 develop:
 	test -n "$(document-root)"
-	HOST_MACHINE=$(HOST_MACHINE)						\
-	BITRIX_CLI_INSTALL_TARGET=$(document-root)			\
-	XDEBUG_CONFIG="xdebug.remote_host=$(HOST_MACHINE)"	\
-	PHP_IDE_CONFIG=serverName=bitrix-cli-install		\
-		docker-compose run --rm --entrypoint=			\
-			-e BITRIX_DB_HOST=$(HOST_MACHINE)			\
-			-e BITRIX_ADMIN_LOGIN=admin					\
-			-e BITRIX_ADMIN_PASSWORD=123456				\
-			-e BITRIX_ADMIN_EMAIL=admin@example.com		\
+	if [ "$(withTmpDb)" ]; then docker-compose run --rm -d mysql; fi
+	HOST_MACHINE=$(HOST_MACHINE)								\
+	BITRIX_CLI_INSTALL_TARGET=$(document-root)					\
+	XDEBUG_CONFIG="xdebug.remote_host=$(HOST_MACHINE)"			\
+	PHP_IDE_CONFIG=serverName=bitrix-cli-install				\
+		docker-compose run --rm --entrypoint=					\
+            -e BITRIX_ADMIN_LOGIN=$(BITRIX_ADMIN_LOGIN)			\
+            -e BITRIX_ADMIN_PASSWORD=$(BITRIX_ADMIN_PASSWORD)	\
+            -e BITRIX_ADMIN_EMAIL=$(BITRIX_ADMIN_EMAIL)			\
+            -e BITRIX_DB_HOST=$(HOST_MACHINE)					\
+            -e BITRIX_DB_LOGIN=$(BITRIX_DB_LOGIN)				\
+            -e BITRIX_DB_PASSWORD=$(BITRIX_DB_PASSWORD)			\
+            -e BITRIX_DB_NAME=$(BITRIX_DB_NAME)					\
 				$(with) bitrix-cli-install sh
+	if [ "$(withTmpDb)" ]; then docker stop $$(docker-compose ps -q mysql); fi
 
 .PHONY: build-develop
 build-develop:

@@ -1,10 +1,10 @@
 {
     "name": "maximaster/bitrix-cli-install",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "minimum-stability": "dev",
     "license": "MIT",
     "type": "library",
-    "description": "Установка Битрикс из дистрибутива через консольную команду. Запуск веб-сервера не требуется",
+    "description": "Установка Битрикс из дистрибутива или резервную копию через консольную команду. Запуск веб-сервера не требуется",
     "bin": ["bin/bitrix-cli-install"],
     "require": {
         "php": ">=7.2",

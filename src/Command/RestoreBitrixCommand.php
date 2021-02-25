@@ -5,11 +5,11 @@ namespace Maximaster\BitrixCliInstall\Command;
 use Exception;
 use Maximaster\BitrixCliInstall\BitrixRestorer\BitrixRestoreConfig;
 use Maximaster\BitrixCliInstall\BitrixRestorer\BitrixRestorer;
+use Maximaster\BitrixCliInstall\BitrixRestorer\Enum\BitrixRestoreSkippableStageEnum;
 use Maximaster\BitrixCliInstall\BitrixRestorer\Enum\BitrixRestoreStageEnum;
 use Maximaster\BitrixCliInstall\BitrixRestorer\Event\RestoreStepFinished;
 use Maximaster\BitrixCliInstall\BitrixRestorer\Event\RestoreStepPrepared;
 use Maximaster\BitrixCliInstall\PathResolver;
-use SplFileInfo;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -29,7 +29,7 @@ class RestoreBitrixCommand extends Command
 
     public const OPT_SCRIPT = 'script';
     public const OPT_WIZARD_CONFIG = 'wizard-config';
-    public const OPT_SKIP_DB_RESTORE = 'skip-db-restore';
+    public const OPT_SKIPS = 'skip';
 
     /** @var PathResolver */
     private $pathResolver;
@@ -59,6 +59,8 @@ class RestoreBitrixCommand extends Command
 
     protected function configure()
     {
+        $this->setDescription('Восстановить Битрикс из резервной копии');
+
         $def = $this->getDefinition();
 
         $def->setArguments([
@@ -88,10 +90,10 @@ class RestoreBitrixCommand extends Command
                 'Файл настройки установки, для получения данных о подключении'
             ),
             new InputOption(
-                self::OPT_SKIP_DB_RESTORE,
+                self::OPT_SKIPS,
                 null,
-                InputOption::VALUE_NONE,
-                'Пропустить восстановление дампа базы данных'
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                'Пропустить определённый шаг: ' . implode(', ', BitrixRestoreSkippableStageEnum::toArray())
             )
         ]);
     }
@@ -121,7 +123,7 @@ class RestoreBitrixCommand extends Command
                     $documentRoot,
                     $input->getOption(self::OPT_SCRIPT),
                     $input->getArgument(self::ARG_BACKUP),
-                    $input->getOption(self::OPT_SKIP_DB_RESTORE),
+                    $input->getOption(self::OPT_SKIPS),
                     $input->getOption(self::OPT_WIZARD_CONFIG) ?: null
                 )
             );

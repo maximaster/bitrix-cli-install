@@ -76,6 +76,8 @@ class InstallBitrixCommand extends Command
 
     protected function configure()
     {
+        $this->setDescription('Установить Битрикс из дистрибутива');
+
         $def = $this->getDefinition();
 
         $def->setArguments([

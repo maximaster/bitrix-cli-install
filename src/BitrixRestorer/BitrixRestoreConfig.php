@@ -3,7 +3,9 @@
 namespace Maximaster\BitrixCliInstall\BitrixRestorer;
 
 use InvalidArgumentException;
+use Maximaster\BitrixCliInstall\BitrixRestorer\Enum\BitrixRestoreSkippableStageEnum;
 use SplFileInfo;
+use UnexpectedValueException;
 
 class BitrixRestoreConfig
 {
@@ -16,8 +18,8 @@ class BitrixRestoreConfig
     /** @var string */
     public $backupUri;
 
-    /** @var bool */
-    public $skipDbRestore;
+    /** @var string[] */
+    public $skips;
 
     /** @var string */
     public $wizardConfig;
@@ -26,7 +28,7 @@ class BitrixRestoreConfig
         SplFileInfo $documentRoot,
         string $restoreScriptUri,
         string $backupUri,
-        bool $skipDbRestore,
+        array $skips,
         string $wizardConfig = null
     ) {
         if (!$documentRoot->isDir()) {
@@ -36,7 +38,26 @@ class BitrixRestoreConfig
         $this->documentRoot = $documentRoot;
         $this->restoreScriptUri = $restoreScriptUri;
         $this->backupUri = $backupUri;
-        $this->skipDbRestore = $skipDbRestore;
+
+        $invalidSkips = [];
+        foreach ($skips as $skip) {
+            if (!BitrixRestoreSkippableStageEnum::isValid($skip)) {
+                $invalidSkips[] = $skip;
+            }
+        }
+
+        if ($invalidSkips) {
+            throw new UnexpectedValueException(
+                sprintf(
+                    'Получены недопустимые значения для параметра skips: %s. Допустимые значения: %s',
+                    implode(', ', $invalidSkips),
+                    implode(', ', BitrixRestoreSkippableStageEnum::toArray())
+                )
+            );
+        }
+
+        $this->skips = $skips;
+
         $this->wizardConfig = $wizardConfig;
     }
 }

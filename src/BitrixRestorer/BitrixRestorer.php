@@ -67,7 +67,10 @@ class BitrixRestorer
         $client = $this->cliEntFactory->build($config->documentRoot->getPathname());
 
         $this->patchRestore($config);
-        $this->initRestore($config, $client);
+
+        if ($this->isAllowedStep(BitrixRestoreStageEnum::INIT_RESTORE(), $config)) {
+            $this->initRestore($config, $client);
+        }
 
         $backupFormat = pathinfo($config->backupUri, PATHINFO_EXTENSION);
 
@@ -75,33 +78,56 @@ class BitrixRestorer
             ? BackupLocationTypeEnum::REMOTE()
             : BackupLocationTypeEnum::LOCAL();
 
-        $backupLocationType->isRemote()
-            ? $this->downloadBackup($config, $client)
-            : $this->copyBackup($config->backupUri, $config->documentRoot->getPathname());
+        if ($backupLocationType->isRemote()) {
+            if ($this->isAllowedStep(BitrixRestoreStageEnum::DOWNLOAD_BACKUP(), $config)) {
+                $this->downloadBackup($config, $client);
+            }
+        } else {
+            $this->copyBackup($config->backupUri, $config->documentRoot->getPathname());
+        }
 
-        if ($backupFormat !== 'sql') {
+        if ($this->isAllowedStep(BitrixRestoreStageEnum::UNPACK_BACKUP(), $config) && $backupFormat !== 'sql') {
             $unpackResponse = $this->unpackBackup($config, $client);
         }
 
-        if ($config->skipDbRestore) {
-            return;
-        }
+        if ($this->isAllowedStep(BitrixRestoreStageEnum::RESTORE_DATABASE(), $config)) {
+            // Приоритетно берём подключение конфига установки, если указано
+            // Иначе из ответа от распаковки, если она делалась
+            // Иначе делаем запрос на автоматически определённые параметры подключения
+            if ($config->wizardConfig) {
+                $restoreDatabaseRequest = $this->createRestoreDatabaseRequestFromWizardConfig($config);
+            } elseif (!empty($unpackResponse) && $this->isValidConnectionParameters($unpackResponse)) {
+                $restoreDatabaseRequest = $this->createRestoreDatabaseRequestFromRestoreResponse($config, $unpackResponse);
+            } else {
+                $connectionParameters = $this->requestConnectionParameters($config, $client);
 
-        // Приоритетно берём подключение конфига установки, если указано
-        // Иначе из ответа от распаковки, если она делалась
-        // Иначе делаем запрос на автоматически определённые параметры подключения
-        if ($config->wizardConfig) {
-            $restoreDatabaseRequest = $this->createRestoreDatabaseRequestFromWizardConfig($config);
-        } elseif (!empty($unpackResponse)) {
-            $restoreDatabaseRequest = $this->createRestoreDatabaseRequestFromRestoreResponse($config, $unpackResponse);
-        } else {
-            $restoreDatabaseRequest = $this->createRestoreDatabaseRequestFromRestoreResponse(
-                $config,
-                $this->requestConnectionParameters($config, $client)
-            );
-        }
+                if (!$this->isValidConnectionParameters($connectionParameters)) {
+                    throw new Exception('Не удалось определить параметры подключения к базе данных. Попробуйте указать wizardConfig с данными подключения');
+                }
 
-        $this->restoreDatabase($config, $client, $restoreDatabaseRequest);
+                $restoreDatabaseRequest = $this->createRestoreDatabaseRequestFromRestoreResponse(
+                    $config,
+                    $this->requestConnectionParameters($config, $client)
+                );
+            }
+
+            $this->restoreDatabase($config, $client, $restoreDatabaseRequest);
+        }
+    }
+
+    private function isAllowedStep(BitrixRestoreStageEnum $step, BitrixRestoreConfig $config): bool
+    {
+        return !in_array($step->getValue(), $config->skips);
+    }
+
+    private function isValidConnectionParameters(array $connectionParams): bool
+    {
+        return isset(
+            $connectionParams['DBHost'],
+            $connectionParams['DBLogin'],
+            $connectionParams['DBPassword'],
+            $connectionParams['DBName']
+        );
     }
 
     /**
@@ -127,7 +153,7 @@ class BitrixRestorer
         $response = $client->post(self::RESTORE_URI, [ RequestOptions::FORM_PARAMS => $payload ]);
         $restoreResponse = $this->parseRestoreResponse($response);
 
-        $this->assertResponse($restoreResponse);
+        $this->validateResponse($restoreResponse);
 
         $this->dispatcher && $this->dispatcher->dispatch(new RestoreStepFinished($config, $stage, $payload, $restoreResponse));
 
@@ -158,12 +184,37 @@ class BitrixRestorer
      *
      * @throws Exception
      */
-    private function assertResponse(RestoreResponse $response): void
+    private function validateResponse(RestoreResponse $response): void
     {
         $statusCode = $response->httpResponse->getStatusCode();
         if ($statusCode !== 200) {
             throw new Exception(sprintf('Ожидался код ответа 200, получен %d', $statusCode));
         }
+
+        $crawler = new Crawler($response->responseBody);
+        $errorNodes = $crawler->filter('[style="color:red"]');
+
+        if (!$errorNodes->count()) {
+            return;
+        }
+
+        // TODO: доработать контейнер вместо игнорирования этой ошибки?
+        $errors = $errorNodes->text();
+        $errors = str_replace(
+            [
+                'Your server is not configured for UTF-8 encoding.',
+                'Please set mbstring.func_overload=2 and mbstring.internal_encoding=UTF-8 to continue.',
+            ],
+            '',
+            $errors
+        );
+
+        $errors = trim($errors);
+        if (!$errors) {
+            return;
+        }
+
+        throw new Exception(sprintf('Ошибка скрипта восстановления: %s', $errors));
     }
 
     /**
