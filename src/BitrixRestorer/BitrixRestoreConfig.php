@@ -16,6 +16,9 @@ class BitrixRestoreConfig
     /** @var string */
     public $backupUri;
 
+    /** @var bool */
+    public $skipDbRestore;
+
     /** @var string */
     public $wizardConfig;
 
@@ -23,6 +26,7 @@ class BitrixRestoreConfig
         SplFileInfo $documentRoot,
         string $restoreScriptUri,
         string $backupUri,
+        bool $skipDbRestore,
         string $wizardConfig = null
     ) {
         if (!$documentRoot->isDir()) {
@@ -32,6 +36,7 @@ class BitrixRestoreConfig
         $this->documentRoot = $documentRoot;
         $this->restoreScriptUri = $restoreScriptUri;
         $this->backupUri = $backupUri;
+        $this->skipDbRestore = $skipDbRestore;
         $this->wizardConfig = $wizardConfig;
     }
 }

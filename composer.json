@@ -1,6 +1,6 @@
 {
     "name": "maximaster/bitrix-cli-install",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "minimum-stability": "dev",
     "license": "MIT",
     "type": "library",
@@ -9,6 +9,7 @@
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
+        "ext-dom": "*",
         "symfony/polyfill-php80": "@stable",
         "symfony/console": "5.*",
         "symfony/yaml": "5.*",

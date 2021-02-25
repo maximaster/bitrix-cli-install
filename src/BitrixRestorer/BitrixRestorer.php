@@ -2,6 +2,7 @@
 
 namespace Maximaster\BitrixCliInstall\BitrixRestorer;
 
+use DOMNode;
 use Exception;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
@@ -80,6 +81,10 @@ class BitrixRestorer
 
         if ($backupFormat !== 'sql') {
             $unpackResponse = $this->unpackBackup($config, $client);
+        }
+
+        if ($config->skipDbRestore) {
+            return;
         }
 
         // Приоритетно берём подключение конфига установки, если указано
@@ -284,7 +289,10 @@ class BitrixRestorer
                 continue;
             }
 
-            if (((int) $payload['Block'] < (int) $payload['DataSize']) || !empty($payload['clear'])) {
+            $hasProgressFields = array_key_exists('Block', $payload) && array_key_exists('DataSize', $payload);
+            if (($hasProgressFields && ((int) $payload['Block'] < (int) $payload['DataSize']))
+                || !empty($payload['clear'])
+            ) {
                 continue;
             }
 
@@ -300,7 +308,11 @@ class BitrixRestorer
 
         $payload = [];
         foreach ($crawler->filter('form[name="restore"] input') as $input) {
-            $payload[ $input->attributes->getNamedItem('name')->nodeValue ] = $input->attributes->getNamedItem('value')->nodeValue;
+            $nameAttr = $input->attributes->getNamedItem('name');
+            $valueAttr = $input->attributes->getNamedItem('value');
+            if ($nameAttr && $valueAttr && $nameAttr instanceof DOMNode && $valueAttr instanceof DOMNode) {
+                $payload[ $nameAttr->nodeValue ] = $valueAttr->nodeValue;
+            }
         }
 
         return $payload;

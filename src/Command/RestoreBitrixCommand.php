@@ -29,6 +29,7 @@ class RestoreBitrixCommand extends Command
 
     public const OPT_SCRIPT = 'script';
     public const OPT_WIZARD_CONFIG = 'wizard-config';
+    public const OPT_SKIP_DB_RESTORE = 'skip-db-restore';
 
     /** @var PathResolver */
     private $pathResolver;
@@ -85,6 +86,12 @@ class RestoreBitrixCommand extends Command
                 'w',
                 InputOption::VALUE_REQUIRED,
                 'Файл настройки установки, для получения данных о подключении'
+            ),
+            new InputOption(
+                self::OPT_SKIP_DB_RESTORE,
+                null,
+                InputOption::VALUE_NONE,
+                'Пропустить восстановление дампа базы данных'
             )
         ]);
     }
@@ -114,6 +121,7 @@ class RestoreBitrixCommand extends Command
                     $documentRoot,
                     $input->getOption(self::OPT_SCRIPT),
                     $input->getArgument(self::ARG_BACKUP),
+                    $input->getOption(self::OPT_SKIP_DB_RESTORE),
                     $input->getOption(self::OPT_WIZARD_CONFIG) ?: null
                 )
             );
