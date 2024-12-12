@@ -78,7 +78,7 @@ $bitrixInstaller = new BitrixInstaller(
     $eventDispatcher
 );
 
-$app = new Application($package['name'], $package['version']);
+$app = new Application($package['name']);
 
 $app->addCommands([
     new InstallBitrixCommand(
