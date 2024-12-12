@@ -40,7 +40,7 @@ class RestoreBitrixCommand extends Command
     /** @var EventDispatcherInterface */
     private $dispatcher;
 
-    public static function getDefaultName()
+    public static function getDefaultName(): string
     {
         return 'bitrix:restore';
     }
@@ -57,7 +57,7 @@ class RestoreBitrixCommand extends Command
         $this->dispatcher = $dispatcher;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Восстановить Битрикс из резервной копии');
 

@@ -1,0 +1,182 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "php83Extensions.dom@8.3": {
+      "last_modified": "2024-11-28T07:51:56Z",
+      "resolved": "github:NixOS/nixpkgs/226216574ada4c3ecefcbbec41f39ce4655f78ef#php83Extensions.dom",
+      "source": "devbox-search",
+      "version": "8.3.14",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ivlhlqiblydxhr6hxhnhblblc6v53iw6-php-dom-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/zdkgfybadr28zw2y86fvlc012bbaxzsx-php-dom-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/ivlhlqiblydxhr6hxhnhblblc6v53iw6-php-dom-8.3.14"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/dbhkpx62l519c0l9snh0szj0m590l3bj-php-dom-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/rgarbs6gg0wpa05zygp91ns3k1a5p69c-php-dom-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/dbhkpx62l519c0l9snh0szj0m590l3bj-php-dom-8.3.14"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fxj1d2j8sh9fva274g83fz5k2f08q0kp-php-dom-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/ni4530ckx18cwip4l3wxsn3fs3648ilh-php-dom-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/fxj1d2j8sh9fva274g83fz5k2f08q0kp-php-dom-8.3.14"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8p41wjndmzl5xzaysmssl9zsbaa5j921-php-dom-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/k2c98f4hm0s3q80r52w314a0l68kdflb-php-dom-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/8p41wjndmzl5xzaysmssl9zsbaa5j921-php-dom-8.3.14"
+        }
+      }
+    },
+    "php83Extensions.zip@8.3": {
+      "last_modified": "2024-11-28T07:51:56Z",
+      "resolved": "github:NixOS/nixpkgs/226216574ada4c3ecefcbbec41f39ce4655f78ef#php83Extensions.zip",
+      "source": "devbox-search",
+      "version": "8.3.14",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bspnz3pawdq91kkjqas14kl9lb6gb1m1-php-zip-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/xvgfskv83jqsq69bnhkbizljgcn3n1si-php-zip-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/bspnz3pawdq91kkjqas14kl9lb6gb1m1-php-zip-8.3.14"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/iz1q23611nkg7yk4hd786hjkinifl4sz-php-zip-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/97xffh0qq39vzxs4fvsg855dc4hk1bqa-php-zip-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/iz1q23611nkg7yk4hd786hjkinifl4sz-php-zip-8.3.14"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/l9c017bxmz4bdn1nzgvijm0hm5mydnvw-php-zip-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/cpbxwsjrww107bpzrfdnrv3mgcs8zpk0-php-zip-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/l9c017bxmz4bdn1nzgvijm0hm5mydnvw-php-zip-8.3.14"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2yx3ny6x4xb0g34ynr2lnmcss1884489-php-zip-8.3.14",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/5bjzp0h59rzvbg08zgcrydm3c4xy5kbd-php-zip-8.3.14-dev"
+            }
+          ],
+          "store_path": "/nix/store/2yx3ny6x4xb0g34ynr2lnmcss1884489-php-zip-8.3.14"
+        }
+      }
+    },
+    "php@8.3": {
+      "last_modified": "2024-11-28T07:51:56Z",
+      "plugin_version": "0.0.3",
+      "resolved": "github:NixOS/nixpkgs/226216574ada4c3ecefcbbec41f39ce4655f78ef#php",
+      "source": "devbox-search",
+      "version": "8.3.14",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/f63bp7kld06ijx7hpfh64qi256r8sqjx-php-with-extensions-8.3.14",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/f63bp7kld06ijx7hpfh64qi256r8sqjx-php-with-extensions-8.3.14"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/675yids8r20sk6p7sn0ncfz2c7pgaayr-php-with-extensions-8.3.14",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/675yids8r20sk6p7sn0ncfz2c7pgaayr-php-with-extensions-8.3.14"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0mpr8khlgiqij4n7jdxdshliy4b40z2v-php-with-extensions-8.3.14",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/0mpr8khlgiqij4n7jdxdshliy4b40z2v-php-with-extensions-8.3.14"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/984l3766rj86khyvc38yhy0wx81qgdax-php-with-extensions-8.3.14",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/984l3766rj86khyvc38yhy0wx81qgdax-php-with-extensions-8.3.14"
+        }
+      }
+    }
+  }
+}

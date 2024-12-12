@@ -55,7 +55,7 @@ class InstallBitrixCommand extends Command
     /** @var WizardConfigLocator */
     private $wizardConfigLocator;
 
-    public static function getDefaultName()
+    public static function getDefaultName(): string
     {
         return 'bitrix:install';
     }
@@ -74,7 +74,7 @@ class InstallBitrixCommand extends Command
         $this->wizardConfigLocator = $wizardConfigLocator;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Установить Битрикс из дистрибутива');
 
@@ -124,7 +124,7 @@ class InstallBitrixCommand extends Command
      *
      * @throws Exception|GuzzleException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $ss = new SymfonyStyle($input, $output);
         $eventSubscriber = $this->createEventSubscriber($ss);

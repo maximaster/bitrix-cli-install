@@ -36,7 +36,7 @@ class UninstallBitrixCommand extends Command
     /** @var array */
     private $bitrixFiles;
 
-    public static function getDefaultName()
+    public static function getDefaultName(): string
     {
         return 'bitrix:uninstall';
     }
@@ -53,7 +53,7 @@ class UninstallBitrixCommand extends Command
         $this->bitrixFiles = $bitrixFiles;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Удалить Битрикс');
 
@@ -78,7 +78,7 @@ class UninstallBitrixCommand extends Command
         ]);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $ss = new SymfonyStyle($input, $output);
 

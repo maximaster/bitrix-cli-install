@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Maximaster\BitrixCliInstall\BitrixInstaller\WizardConfig\Parser;
 
@@ -56,7 +58,7 @@ class WizardConfigBuilder
     {
         foreach ($payload as $field => &$value) {
             foreach ($this->subtitutions as $subtitutionName => $subtitutionValue) {
-                $value = str_replace("%{$subtitutionName}%", $subtitutionValue, $value);
+                $value = str_replace("%{$subtitutionName}%", $subtitutionValue, strval($value));
             }
         }
         unset($value);

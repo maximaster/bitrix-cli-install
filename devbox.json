@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.6/.schema/devbox.schema.json",
+  "packages": [
+    "php@8.3",
+    "php83Extensions.zip@8.3",
+    "php83Extensions.dom@8.3"
+  ]
+}
