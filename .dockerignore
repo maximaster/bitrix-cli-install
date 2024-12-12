@@ -1,7 +1,0 @@
-*
-!bin/
-!config/
-!src/
-!composer.json
-!composer.lock
-!Makefile
